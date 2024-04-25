@@ -2,9 +2,9 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from ttkbootstrap import Style
 from ttkbootstrap.widgets import Frame, Button, Label, Progressbar, Entry
+from PIL import Image, ImageTk
 import json
 import os
-
 
 # Function to generate a unique output filename for each input
 def get_unique_output_filename(input_file, output_folder):
@@ -19,7 +19,6 @@ def get_unique_output_filename(input_file, output_folder):
         counter += 1
 
     return output_file
-
 
 # Function to convert JSON to JSONL and update the progress bar
 def convert_json_to_jsonl(input_file, output_file, progress, total_files, current_index):
@@ -44,15 +43,29 @@ def convert_json_to_jsonl(input_file, output_file, progress, total_files, curren
         messagebox.showerror("Conversion Error", f"An error occurred during conversion: {e}")
         return None
 
-
-# Create a simple style with a bright tropical theme
+# Create a new style
 app = Style(theme='solar')  # Bright theme with tropical colors
 root = app.master
-root.title("Tropical JSON to JSONL Converter")
 
-# Main frame for layout
-main_frame = Frame(root, padding=20, style='primary.TFrame')  # Caribbean cerulean background
-main_frame.pack(pady=10, padx=10, fill='both', expand=True)
+# Adjust window title and geometry
+root.title("McJsonizeIt")
+root.geometry("800x600")  # Increase the window size
+
+# Load and display the background image
+bg_image_path = "background.png"  # Change to the path of your image
+bg_image = Image.open(bg_image_path)
+bg_photo = ImageTk.PhotoImage(bg_image)
+
+# Use a canvas to display the background image
+canvas = tk.Canvas(root, width=800, height=600)
+canvas.pack(fill='both', expand=True)
+
+# Place the background image on the canvas
+canvas.create_image(0, 0, image=bg_photo, anchor='nw')
+
+# Main frame for layout with less padding
+main_frame = Frame(canvas, padding=5, style='primary.TFrame')  # Reduced padding
+main_frame.place(relx=0.5, rely=0.5, anchor='center')  # Centered frame
 
 # Function to select multiple input JSON files
 def select_input_files():
@@ -63,7 +76,6 @@ def select_input_files():
     input_entry.delete(0, 'end')
     input_entry.insert(0, ', '.join(files))
 
-
 # Function to select the output folder
 def select_output_folder():
     folder = filedialog.askdirectory(
@@ -71,7 +83,6 @@ def select_output_folder():
     )
     output_entry.delete(0, 'end')
     output_entry.insert(0, folder)
-
 
 # Convert function for multiple files
 def on_convert():
@@ -100,8 +111,7 @@ def on_convert():
 
     messagebox.showinfo("Conversion Success", f"All selected files have been converted.")
 
-
-# Create the layout with tropical-themed widgets
+# Layout creation with tropical-themed widgets
 input_label = Label(main_frame, text="Select Input JSON Files:", style='info.TLabel')  # Sea blue
 input_label.pack(pady=5, anchor='w')
 
