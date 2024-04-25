@@ -6,6 +6,7 @@ from PIL import Image, ImageTk
 import json
 import os
 
+
 # Function to generate a unique output filename for each input
 def get_unique_output_filename(input_file, output_folder):
     base_name = os.path.basename(input_file)
@@ -55,6 +56,11 @@ root.geometry("800x600")  # Increase the window size
 bg_image_path = "background.png"  # Change to the path of your image
 bg_image = Image.open(bg_image_path)
 bg_photo = ImageTk.PhotoImage(bg_image)
+
+# Set the icon for the application window
+icon_path = "your_icon.ico"  # Replace "your_icon.ico" with the path to your icon file
+root.iconbitmap(default=icon_path)
+
 
 # Use a canvas to display the background image
 canvas = tk.Canvas(root, width=800, height=600)
